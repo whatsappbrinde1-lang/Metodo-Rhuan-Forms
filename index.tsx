@@ -3,31 +3,25 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
-console.log("Rhuan Forms: Iniciando aplicação...");
-
-const mountApp = () => {
-  const rootElement = document.getElementById('root');
-  if (!rootElement) {
-    console.error("Rhuan Forms Erro: Elemento #root não encontrado no DOM.");
-    return;
-  }
+const startApp = () => {
+  const container = document.getElementById('root');
+  if (!container) return;
 
   try {
-    const root = ReactDOM.createRoot(rootElement);
+    const root = ReactDOM.createRoot(container);
     root.render(
       <React.StrictMode>
         <App />
       </React.StrictMode>
     );
-    console.log("Rhuan Forms: Renderização concluída com sucesso.");
-  } catch (error) {
-    console.error("Rhuan Forms Erro Fatal durante a renderização:", error);
+  } catch (err) {
+    console.error("Erro ao montar App:", err);
   }
 };
 
-// Garante que o DOM esteja carregado
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', mountApp);
+// Certifica-se de que o DOM está pronto antes de tentar montar
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  startApp();
 } else {
-  mountApp();
+  document.addEventListener('DOMContentLoaded', startApp);
 }
