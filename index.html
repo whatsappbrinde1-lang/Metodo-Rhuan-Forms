@@ -5,6 +5,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rhuan Forms | A Inteligência que Emagrece</title>
+    <!-- Shim para process.env necessário para ambientes frontend que não injetam o objeto process automaticamente -->
+    <script>
+      window.process = {
+        env: {
+          NODE_ENV: 'production',
+          API_KEY: '' // Será injetado pelo ambiente de execução
+        }
+      };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +28,7 @@
         background-color: #050505;
         color: #ffffff;
         overflow-x: hidden;
+        margin: 0;
       }
       h1, h2, h3, .font-heading {
         font-family: 'Space Grotesk', sans-serif;
@@ -55,17 +65,29 @@
         background: radial-gradient(at 0% 0%, rgba(255, 95, 0, 0.15) 0px, transparent 50%),
                     radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
       }
+      /* Fallback em caso de falha no JS */
+      #root:empty::before {
+        content: "Carregando a experiência Rhuan Forms...";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #FF5F00;
+        font-weight: bold;
+      }
     </style>
     <script type="importmap">
-    {
-      "imports": {
-        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-        "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
-        "react/": "https://esm.sh/react@^19.2.3/",
-        "react": "https://esm.sh/react@^19.2.3"
-      }
-    }
-    </script>
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "@google/genai": "https://esm.sh/@google/genai@1.33.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
   </head>
   <body>
     <div class="noise"></div>

@@ -3,7 +3,14 @@ import { GoogleGenAI } from "@google/genai";
 import { UserData } from "../types";
 
 export const generateSlimmingPlan = async (userData: UserData) => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = process.env.API_KEY;
+  
+  if (!apiKey) {
+    console.error("Rhuan Forms: Chave de API (process.env.API_KEY) não configurada.");
+    return "Erro: Configuração de IA pendente. Por favor, verifique as variáveis de ambiente.";
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   
   const prompt = `
     Como um consultor de elite em bio-hacking e emagrecimento do sistema Rhuan Forms, gere um diagnóstico curto e impactante para:
@@ -28,7 +35,7 @@ export const generateSlimmingPlan = async (userData: UserData) => {
       },
     });
 
-    return response.text;
+    return response.text || "A IA não retornou um plano válido no momento.";
   } catch (error) {
     console.error("Erro ao gerar plano com IA:", error);
     return "Ops! Nosso servidor de IA está sobrecarregado de tantos resultados. Tente novamente em 1 minuto.";
